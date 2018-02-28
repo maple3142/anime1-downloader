@@ -1,0 +1,17 @@
+{
+	"name": "anime1-downloader",
+	"version": "1.0.0",
+	"main": "index.js",
+	"license": "MIT",
+	"devDependencies": {
+		"babel-core": "^6.26.0",
+		"babel-preset-es2015": "^6.24.1",
+		"babel-preset-stage-3": "^6.24.1",
+		"rollup": "^0.56.3",
+		"rollup-plugin-babel": "^3.0.3",
+		"rollup-plugin-userscript-metablock": "^0.1.0"
+	},
+	"scripts": {
+		"build": "rollup -c"
+	}
+}
