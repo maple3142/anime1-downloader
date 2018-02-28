@@ -5,7 +5,11 @@ export default {
 	input: 'src/index.js',
 	output: {
 		file: 'userscript.js',
-		format: 'cjs'
+		format: 'iife',
+		globals: {
+			jquery: '$'
+		}
 	},
-	plugins: [metablock({ file: 'src/meta.json' }), babel({ exclude: 'node_modules/**' })]
+	external: ['jquery'],
+	plugins: [metablock({ file: 'src/meta.json' }), babel()]
 }

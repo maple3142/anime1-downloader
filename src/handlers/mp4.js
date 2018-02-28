@@ -1,3 +1,4 @@
+import $ from 'jquery'
 import { download, parseQuery } from '../utils'
 const query = parseQuery(location.search)
 export default function() {

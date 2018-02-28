@@ -1,3 +1,4 @@
+import $ from 'jquery'
 export default function() {
 	//其他頁面
 	if ($('.acpwd-pass').length) {
