@@ -1,5 +1,7 @@
 # Anime1.me 下載器 (userscript)
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/maple3142/anime1-downloader.svg)](https://greenkeeper.io/)
+
 用來下載 Anime1.me 網站上的動漫
 
 功能:
