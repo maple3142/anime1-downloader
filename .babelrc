@@ -1,4 +1,4 @@
 {
-	"presets": [["es2015", { "modules": false, "loose": true }], "stage-3"],
+	"presets": [["maple", { "modules": false, "jsx": "vue", "type": "browser" }]],
 	"plugins": ["external-helpers"]
 }

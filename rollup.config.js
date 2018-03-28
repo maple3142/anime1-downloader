@@ -1,5 +1,6 @@
 import metablock from 'rollup-plugin-userscript-metablock'
 import babel from 'rollup-plugin-babel'
+import vue from 'rollup-plugin-vue'
 
 export default {
 	input: 'src/index.js',
@@ -7,9 +8,10 @@ export default {
 		file: 'userscript.js',
 		format: 'iife',
 		globals: {
-			jquery: '$'
+			jquery: '$',
+			vue: 'Vue'
 		}
 	},
-	external: ['jquery'],
-	plugins: [metablock({ file: 'src/meta.json' }), babel()]
+	external: ['jquery', 'vue'],
+	plugins: [metablock({ file: 'src/meta.json' }), vue({ css: true }), babel()]
 }

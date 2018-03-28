@@ -1,7 +1,7 @@
 {
 	"name": "Anime1.me 下載器",
 	"namespace": "https://blog.maple3142.net/",
-	"version": "0.6",
+	"version": "0.7",
 	"description": "下載Anime1.me網站上的動漫",
 	"author": "maple3142",
 	"match": [
@@ -11,7 +11,7 @@
 		"https://p.anime1.me/mp4.php*",
 		"https://torrent.anime1.me/*.html"
 	],
-	"require": "https://code.jquery.com/jquery-3.2.1.min.js",
+	"require": ["https://code.jquery.com/jquery-3.2.1.min.js", "https://unpkg.com/vue@2.5.16/dist/vue.runtime.min.js"],
 	"noframes": "",
 	"grant": "none"
 }
