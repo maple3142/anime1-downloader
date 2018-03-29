@@ -169,14 +169,15 @@ function mp4 () {
 function mf () {
 	const restore = hook(XMLHttpRequest.prototype, 'open', ([GET, url]) => {
 		restore();
-		jwplayer('player').stop();
 		fetch(url).then(r => r.text()).then(ht => {
 			const $$ = $(ht);
-			const lnk = $$.find('.DownloadButtonAd-startDownload').attr('href');
+			let lnk = $$.find('.DownloadButtonAd-startDownload').attr('href');
+			if (!lnk) lnk = url;
 			swal({
 				title: '下載連結',
 				html: `<a href="${lnk}">${lnk}</a>`
 			});
+			jwplayer('player').stop();
 		});
 	});
 	load();
