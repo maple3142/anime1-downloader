@@ -9,9 +9,14 @@
 		"https://p.anime1.me/pic.php*",
 		"https://p.anime1.me/ts.php*",
 		"https://p.anime1.me/mp4.php*",
+		"https://p.anime1.me/mf?id=*",
 		"https://torrent.anime1.me/*.html"
 	],
-	"require": ["https://code.jquery.com/jquery-3.2.1.min.js", "https://unpkg.com/vue@2.5.16/dist/vue.runtime.min.js"],
+	"require": [
+		"https://code.jquery.com/jquery-3.2.1.min.js",
+		"https://unpkg.com/vue@2.5.16/dist/vue.runtime.min.js",
+		"https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.18.0/sweetalert2.all.min.js"
+	],
 	"noframes": "",
 	"grant": "none"
 }

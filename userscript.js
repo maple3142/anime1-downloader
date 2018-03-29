@@ -8,18 +8,21 @@
 // @match       https://p.anime1.me/pic.php*
 // @match       https://p.anime1.me/ts.php*
 // @match       https://p.anime1.me/mp4.php*
+// @match       https://p.anime1.me/mf?id=*
 // @match       https://torrent.anime1.me/*.html
 // @require     https://code.jquery.com/jquery-3.2.1.min.js
 // @require     https://unpkg.com/vue@2.5.16/dist/vue.runtime.min.js
+// @require     https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.18.0/sweetalert2.all.min.js
 // @noframes
 // @grant       none
 // ==/UserScript==
 
-(function ($,Vue) {
+(function ($,Vue,swal) {
 'use strict';
 
 $ = $ && $.hasOwnProperty('default') ? $['default'] : $;
 Vue = Vue && Vue.hasOwnProperty('default') ? Vue['default'] : Vue;
+swal = swal && swal.hasOwnProperty('default') ? swal['default'] : swal;
 
 function download(url, filename) {
 	//觸發下載
@@ -48,6 +51,14 @@ function xhrDownload({ url, progcb, loadcb, proginterval = 3000 }) {
 	xhr.open('GET', url);
 	xhr.send();
 	return xhr;
+}
+function hook(obj, name, cb) {
+	const orig = obj[name];
+	obj[name] = function (...args) {
+		cb(args);
+		orig.apply(this, args);
+	};
+	return () => obj[name] = orig;
 }
 
 function pic () {
@@ -150,6 +161,22 @@ function mp4 () {
 	}).$mount(div);
 }
 
+function mf () {
+	const restore = hook(XMLHttpRequest.prototype, 'open', ([GET, url]) => {
+		restore();
+		jwplayer('player').stop();
+		fetch(url).then(r => r.text()).then(ht => {
+			const $$ = $(ht);
+			const lnk = $$.find('.DownloadButtonAd-startDownload').attr('href');
+			swal({
+				title: '下載連結',
+				html: `<a href="${lnk}">${lnk}</a>`
+			});
+		});
+	});
+	load();
+}
+
 function torrent () {
 	const _continue = prompt('以下是影片的磁力連結，若想在瀏覽器中撥放請按確定，按下取消會停止播放影片', torrentId);
 	if (!_continue) {
@@ -177,6 +204,6 @@ function other () {
 }
 
 const loc = location;
-if (loc.hostname === 'p.anime1.me' && loc.pathname === '/pic.php') pic();else if (loc.hostname === 'p.anime1.me' && loc.pathname === '/ts.php') ts();else if (loc.hostname === 'p.anime1.me' && loc.pathname === '/mp4.php') mp4();else if (loc.hostname === 'torrent.anime1.me') torrent();else other();
+if (loc.hostname === 'p.anime1.me' && loc.pathname === '/pic.php') pic();else if (loc.hostname === 'p.anime1.me' && loc.pathname === '/ts.php') ts();else if (loc.hostname === 'p.anime1.me' && loc.pathname === '/mp4.php') mp4();else if (loc.hostname === 'p.anime1.me' && loc.pathname === '/mf') mf();else if (loc.hostname === 'torrent.anime1.me') torrent();else other();
 
-}($,Vue));
+}($,Vue,Sweetalert2));

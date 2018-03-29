@@ -32,3 +32,11 @@ export function xhrDownload({ url, progcb, loadcb, proginterval = 3000 }) {
 	xhr.send()
 	return xhr
 }
+export function hook(obj, name, cb) {
+	const orig = obj[name]
+	obj[name] = function(...args) {
+		cb(args)
+		orig.apply(this, args)
+	}
+	return () => (obj[name] = orig)
+}

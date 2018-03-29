@@ -9,9 +9,10 @@ export default {
 		format: 'iife',
 		globals: {
 			jquery: '$',
-			vue: 'Vue'
+			vue: 'Vue',
+			sweetalert2: 'Sweetalert2'
 		}
 	},
-	external: ['jquery', 'vue'],
+	external: ['jquery', 'vue', 'sweetalert2'],
 	plugins: [metablock({ file: 'src/meta.json' }), vue({ css: true }), babel()]
 }
