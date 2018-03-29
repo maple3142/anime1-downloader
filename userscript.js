@@ -17,12 +17,12 @@
 // @grant       none
 // ==/UserScript==
 
-(function ($,Vue,swal) {
+(function (swal,$,Vue) {
 'use strict';
 
+swal = swal && swal.hasOwnProperty('default') ? swal['default'] : swal;
 $ = $ && $.hasOwnProperty('default') ? $['default'] : $;
 Vue = Vue && Vue.hasOwnProperty('default') ? Vue['default'] : Vue;
-swal = swal && swal.hasOwnProperty('default') ? swal['default'] : swal;
 
 function download(url, filename) {
 	//觸發下載
@@ -68,7 +68,8 @@ function pic () {
 	if (!video) return;
 	const sources = video.sources;
 	const title = video.title;
-	const videomap = Object.assign(...sources.map(src => ({ [src.label]: src.file }))); //Object.assign({'HD': 'hd video url'},{'SD': 'sd video url'},something...)
+	//Object.assign({'HD': 'hd video url'},{'SD': 'sd video url'},something...)
+	const videomap = Object.assign(...sources.map(src => ({ [src.label]: src.file })));
 
 	//詢問要下載的畫質
 	const askmsg = `輸入要下載的畫質名稱:(${sources.map(src => src.label).join(',')})`;
@@ -83,15 +84,18 @@ const query = parseQuery(location.search);
 function ts () {
 	//不支援下載
 	const m3u8 = `https://video.anime1.top/${query.vid}/list.m3u8`;
-	const msg = `抱歉!由於這種影片是由多個影片所組成的，目前還無法直接下載\n不過可以複製下方的網址然後使用vlc之類支援網路串流的播放器來使用`;
-	prompt(msg, m3u8);
+	const msg = `由於這種影片是由多個影片所組成的，目前還無法直接下載<br>不過可以複製下方的網址並使用 ffmpeg 或 vlc 來下載`;
+	swal({
+		title: '不支援下載',
+		html: `<p>${msg}</p><a href="${m3u8}">${m3u8}</a>`
+	});
 }
 
 (function () {
 	if (typeof document !== 'undefined') {
 		var head = document.head || document.getElementsByTagName('head')[0],
 		    style = document.createElement('style'),
-		    css = " #pbox[data-v-e2bc17e8] { position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto; width: 500px; height: 100px; } ";style.type = 'text/css';if (style.styleSheet) {
+		    css = " #outer[data-v-e2bc17e8] { width: 100%; height: 100vh; text-align: center; } #inner[data-v-e2bc17e8] { position: relative; top: 50%; transform: translateY(-50%); } ";style.type = 'text/css';if (style.styleSheet) {
 			style.styleSheet.cssText = css;
 		} else {
 			style.appendChild(document.createTextNode(css));
@@ -100,7 +104,7 @@ function ts () {
 })();
 
 var Mp4dl = { render: function () {
-		var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { attrs: { "id": "pbox" } }, [_c('div', [_c('progress', { attrs: { "max": _vm.total }, domProps: { "value": _vm.loaded } }), _vm._v(_vm._s(_vm.percent) + "% ")]), _vm._v(" "), _c('div', [_vm._v(" " + _vm._s(_vm.loadedMB) + " MB/" + _vm._s(_vm.totalMB) + " MB ")]), _vm._v(" "), _vm.fileurl ? _c('div', [_c('a', { attrs: { "href": _vm.fileurl, "download": _vm.vid + '.mp4' } }, [_vm._v("點此下載")])]) : _vm._e()]);
+		var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { attrs: { "id": "outer" } }, [_c('div', { attrs: { "id": "inner" } }, [_c('div', [_c('progress', { attrs: { "max": _vm.total }, domProps: { "value": _vm.loaded } }), _vm._v(_vm._s(_vm.percent) + "% ")]), _vm._v(" "), _c('div', [_vm._v(" " + _vm._s(_vm.loadedMB) + " MB/" + _vm._s(_vm.totalMB) + " MB ")]), _vm._v(" "), _vm.fileurl ? _c('div', [_c('a', { attrs: { "href": _vm.fileurl, "download": _vm.vid + '.mp4' } }, [_vm._v("點此下載")])]) : _vm._e()])]);
 	}, staticRenderFns: [], _scopeId: 'data-v-e2bc17e8',
 	props: {
 		url: {
@@ -139,14 +143,15 @@ var Mp4dl = { render: function () {
 			},
 			loadcb: r => {
 				this.fileurl = URL.createObjectURL(r);
-				download(this.fileurl, query$1.vid + '.mp4');
+				download(this.fileurl, this.vid + '.mp4');
 				document.title = '下載完成!';
+				this.loaded = this.total;
 			}
 		});
 	}
 };
 
-const query$2 = parseQuery(location.search);
+const query$1 = parseQuery(location.search);
 function mp4 () {
 	//特殊，因為需要Referer header才能得到影片檔
 	if (!confirm('這類需要特殊下載方法，要保持此頁面開啟直到下載完成\n是否繼續?')) return;
@@ -178,7 +183,10 @@ function mf () {
 }
 
 function torrent () {
-	const _continue = prompt('以下是影片的磁力連結，若想在瀏覽器中撥放請按確定，按下取消會停止播放影片', torrentId);
+	swal({
+		title: '不支援下載',
+		html: `<p>以下是影片的磁力連結，若想在瀏覽器中播放請按確定，按下取消會停止播放影片</p><a href="${torrentId}">${torrentId}</a>`
+	});
 	if (!_continue) {
 		client.destroy();
 		document.documentElement.innerHTML = '';
@@ -206,4 +214,4 @@ function other () {
 const loc = location;
 if (loc.hostname === 'p.anime1.me' && loc.pathname === '/pic.php') pic();else if (loc.hostname === 'p.anime1.me' && loc.pathname === '/ts.php') ts();else if (loc.hostname === 'p.anime1.me' && loc.pathname === '/mp4.php') mp4();else if (loc.hostname === 'p.anime1.me' && loc.pathname === '/mf') mf();else if (loc.hostname === 'torrent.anime1.me') torrent();else other();
 
-}($,Vue,Sweetalert2));
+}(Sweetalert2,$,Vue));

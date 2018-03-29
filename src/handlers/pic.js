@@ -6,7 +6,8 @@ export default function() {
 	if (!video) return
 	const sources = video.sources
 	const title = video.title
-	const videomap = Object.assign(...sources.map(src => ({ [src.label]: src.file }))) //Object.assign({'HD': 'hd video url'},{'SD': 'sd video url'},something...)
+	//Object.assign({'HD': 'hd video url'},{'SD': 'sd video url'},something...)
+	const videomap = Object.assign(...sources.map(src => ({ [src.label]: src.file })))
 
 	//詢問要下載的畫質
 	const askmsg = `輸入要下載的畫質名稱:(${sources.map(src => src.label).join(',')})`

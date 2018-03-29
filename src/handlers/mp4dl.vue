@@ -1,13 +1,15 @@
 <template>
-	<div id="pbox">
-		<div>
-			<progress :max="total" :value="loaded"></progress>{{percent}}%
-		</div>
-		<div>
-			{{loadedMB}} MB/{{totalMB}} MB
-		</div>
-		<div v-if="fileurl">
-			<a :href="fileurl" :download="vid+'.mp4'">點此下載</a>
+	<div id="outer">
+		<div id="inner">
+			<div>
+				<progress :max="total" :value="loaded"></progress>{{percent}}%
+			</div>
+			<div>
+				{{loadedMB}} MB/{{totalMB}} MB
+			</div>
+			<div v-if="fileurl">
+				<a :href="fileurl" :download="vid+'.mp4'">點此下載</a>
+			</div>
 		</div>
 	</div>
 </template>
@@ -52,22 +54,23 @@ export default {
 			},
 			loadcb: r => {
 				this.fileurl = URL.createObjectURL(r)
-				download(this.fileurl, query$1.vid + '.mp4')
+				download(this.fileurl, this.vid + '.mp4')
 				document.title = '下載完成!'
+				this.loaded = this.total
 			}
 		})
 	}
 }
 </script>
 <style scoped>
-#pbox {
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	margin: auto;
-	width: 500px;
-	height: 100px;
+#outer {
+	width: 100%;
+	height: 100vh;
+	text-align: center;
+}
+#inner {
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
 }
 </style>
