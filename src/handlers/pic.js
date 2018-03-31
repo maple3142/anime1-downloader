@@ -14,6 +14,13 @@ export default function() {
 	const type = prompt(askmsg)
 	//如果畫質存在
 	if (type in videomap) {
-		download(videomap[type], `${title}.mp4`)
+		if (GM_info.downloadMode === 'browser' && GM_download) {
+			GM_download({
+				url: videomap[type],
+				name: `${title}.mp4`,
+				onerror: () => download(videomap[type], `${title}.mp4`),
+				saveAs: true
+			})
+		} else download(videomap[type], `${title}.mp4`)
 	}
 }

@@ -2,7 +2,7 @@
 // @name        Anime1.me 下載器
 // @namespace   https://blog.maple3142.net/
 // @description 下載Anime1.me網站上的動漫
-// @version     0.8.0
+// @version     0.8.1
 // @author      maple3142
 // @match       https://anime1.me/*
 // @match       https://p.anime1.me/pic.php*
@@ -14,7 +14,8 @@
 // @require     https://unpkg.com/vue@2.5.16/dist/vue.runtime.min.js
 // @require     https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.18.0/sweetalert2.all.min.js
 // @noframes
-// @grant       none
+// @grant       GM_info
+// @grant       GM_download
 // ==/UserScript==
 
 (function (swal,$,Vue) {
@@ -76,7 +77,14 @@ function pic () {
 	const type = prompt(askmsg);
 	//如果畫質存在
 	if (type in videomap) {
-		download(videomap[type], `${title}.mp4`);
+		if (GM_info.downloadMode === 'browser' && GM_download) {
+			GM_download({
+				url: videomap[type],
+				name: `${title}.mp4`,
+				onerror: () => download(videomap[type], `${title}.mp4`),
+				saveAs: true
+			});
+		} else download(videomap[type], `${title}.mp4`);
 	}
 }
 
@@ -171,8 +179,7 @@ function mf () {
 		restore();
 		fetch(url).then(r => r.text()).then(ht => {
 			const $$ = $(ht);
-			let lnk = $$.find('.DownloadButtonAd-startDownload').attr('href');
-			if (!lnk) lnk = url;
+			let lnk = $$.find('.DownloadButtonAd-startDownload').attr('href') || $$.find('.download_link a').attr('href') || url;
 			swal({
 				title: '下載連結',
 				html: `<a href="${lnk}">${lnk}</a>`

@@ -9,8 +9,10 @@ export default function() {
 			.then(r => r.text())
 			.then(ht => {
 				const $$ = $(ht)
-				let lnk = $$.find('.DownloadButtonAd-startDownload').attr('href')
-				if (!lnk) lnk = url
+				let lnk =
+					$$.find('.DownloadButtonAd-startDownload').attr('href') ||
+					$$.find('.download_link a').attr('href') ||
+					url
 				swal({
 					title: '下載連結',
 					html: `<a href="${lnk}">${lnk}</a>`

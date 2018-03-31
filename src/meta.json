@@ -1,7 +1,7 @@
 {
 	"name": "Anime1.me 下載器",
 	"namespace": "https://blog.maple3142.net/",
-	"version": "0.8.0",
+	"version": "0.8.1",
 	"description": "下載Anime1.me網站上的動漫",
 	"author": "maple3142",
 	"match": [
@@ -18,5 +18,5 @@
 		"https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.18.0/sweetalert2.all.min.js"
 	],
 	"noframes": "",
-	"grant": "none"
+	"grant": ["GM_info", "GM_download"]
 }
