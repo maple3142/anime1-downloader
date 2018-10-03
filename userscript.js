@@ -2,7 +2,7 @@
 // @name        Anime1.me 下載器
 // @namespace   https://blog.maple3142.net/
 // @description 下載Anime1.me網站上的動漫
-// @version     0.8.2
+// @version     0.8.3
 // @author      maple3142
 // @match       https://anime1.me/*
 // @match       https://p.anime1.me/pic.php*
@@ -11,6 +11,7 @@
 // @match       https://p.anime1.me/mf?id=*
 // @match       https://torrent.anime1.me/*.html
 // @match       https://video.anime1.me/video?*
+// @match       https://player.anime1.me/watch?*
 // @require     https://code.jquery.com/jquery-3.2.1.min.js
 // @require     https://unpkg.com/vue@2.5.16/dist/vue.runtime.min.js
 // @require     https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.18.0/sweetalert2.all.min.js
@@ -207,6 +208,8 @@ function video () {
 	location.href = src;
 }
 
+var player = (() => location.href = playerInstance.getConfig().file);
+
 function other () {
 	//其他頁面
 	if ($('.acpwd-pass').length) {
@@ -226,6 +229,6 @@ function other () {
 }
 
 const loc = location;
-if (loc.hostname === 'p.anime1.me' && loc.pathname === '/pic.php') pic();else if (loc.hostname === 'p.anime1.me' && loc.pathname === '/ts.php') ts();else if (loc.hostname === 'p.anime1.me' && loc.pathname === '/mp4.php') mp4();else if (loc.hostname === 'p.anime1.me' && loc.pathname === '/mf') mf();else if (loc.hostname === 'torrent.anime1.me') torrent();else if (loc.hostname === 'video.anime1.me' && loc.pathname === '/video') video();else other();
+if (loc.hostname === 'p.anime1.me' && loc.pathname === '/pic.php') pic();else if (loc.hostname === 'p.anime1.me' && loc.pathname === '/ts.php') ts();else if (loc.hostname === 'p.anime1.me' && loc.pathname === '/mp4.php') mp4();else if (loc.hostname === 'p.anime1.me' && loc.pathname === '/mf') mf();else if (loc.hostname === 'torrent.anime1.me') torrent();else if (loc.hostname === 'video.anime1.me' && loc.pathname === '/video') video();else if (loc.hostname === 'player.anime1.me' && loc.pathname === '/watch') player();else other();
 
 }(Sweetalert2,$,Vue));
