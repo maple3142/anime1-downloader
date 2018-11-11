@@ -2,7 +2,7 @@
 // @name        Anime1.me 下載器
 // @namespace   https://blog.maple3142.net/
 // @description 下載Anime1.me網站上的動漫
-// @version     0.8.3
+// @version     0.8.4
 // @author      maple3142
 // @match       https://anime1.me/*
 // @match       https://p.anime1.me/pic.php*
@@ -12,6 +12,7 @@
 // @match       https://torrent.anime1.me/*.html
 // @match       https://video.anime1.me/video?*
 // @match       https://player.anime1.me/watch?*
+// @match       https://player.anime1.me/watchhls?*
 // @require     https://code.jquery.com/jquery-3.2.1.min.js
 // @require     https://unpkg.com/vue@2.5.16/dist/vue.runtime.min.js
 // @require     https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.18.0/sweetalert2.all.min.js
@@ -90,16 +91,17 @@ function pic () {
 	}
 }
 
-const query = parseQuery(location.search);
-function ts () {
-	//不支援下載
-	const m3u8 = `https://video.anime1.top/${query.vid}/list.m3u8`;
-	const msg = `由於這種影片是由多個影片所組成的，目前還無法直接下載<br>不過可以複製下方的網址並使用 ffmpeg 或 vlc 來下載`;
+const msg = `由於這種影片是線上串流格式的影片，無法透過瀏覽器直接下載<br>但你可以複製下方的網址並使用 ffmpeg 或 vlc 來下載或是 google m3u8 的下載方法`;
+const url = `https://chrome.google.com/webstore/detail/native-hls-playback/emnphkkblegpebimobpbekeedfgemhof`;
+const nativehlsplayback = `只是需要播放的話可以安裝<a href="${url}">此插件</a>來播放`;
+var hlsmsg = (m3u8 => {
 	swal({
 		title: '不支援下載',
-		html: `<p>${msg}</p><a href="${m3u8}">${m3u8}</a>`
+		html: `<p>${msg}</p><p>${nativehlsplayback}</p><a href="${m3u8}">${m3u8}</a>`
 	});
-}
+});
+
+var ts = (() => hlsmsg(player.src()));
 
 (function () {
 	if (typeof document !== 'undefined') {
@@ -161,7 +163,7 @@ var Mp4dl = { render: function () {
 	}
 };
 
-const query$1 = parseQuery(location.search);
+const query = parseQuery(location.search);
 function mp4 () {
 	//特殊，因為需要Referer header才能得到影片檔
 	if (!confirm('這類需要特殊下載方法，要保持此頁面開啟直到下載完成\n是否繼續?')) return;
@@ -208,7 +210,9 @@ function video () {
 	location.href = src;
 }
 
-var player = (() => location.href = playerInstance.getConfig().file);
+var watch = (() => location.href = playerInstance.getConfig().file);
+
+var watchhls = (() => hlsmsg(player.src()));
 
 function other () {
 	//其他頁面
@@ -229,6 +233,6 @@ function other () {
 }
 
 const loc = location;
-if (loc.hostname === 'p.anime1.me' && loc.pathname === '/pic.php') pic();else if (loc.hostname === 'p.anime1.me' && loc.pathname === '/ts.php') ts();else if (loc.hostname === 'p.anime1.me' && loc.pathname === '/mp4.php') mp4();else if (loc.hostname === 'p.anime1.me' && loc.pathname === '/mf') mf();else if (loc.hostname === 'torrent.anime1.me') torrent();else if (loc.hostname === 'video.anime1.me' && loc.pathname === '/video') video();else if (loc.hostname === 'player.anime1.me' && loc.pathname === '/watch') player();else other();
+if (loc.hostname === 'p.anime1.me' && loc.pathname === '/pic.php') pic();else if (loc.hostname === 'p.anime1.me' && loc.pathname === '/ts.php') ts();else if (loc.hostname === 'p.anime1.me' && loc.pathname === '/mp4.php') mp4();else if (loc.hostname === 'p.anime1.me' && loc.pathname === '/mf') mf();else if (loc.hostname === 'torrent.anime1.me') torrent();else if (loc.hostname === 'video.anime1.me' && loc.pathname === '/video') video();else if (loc.hostname === 'player.anime1.me' && loc.pathname === '/watch') watch();else if (loc.hostname === 'player.anime1.me' && loc.pathname === '/watchhls') watchhls();else other();
 
 }(Sweetalert2,$,Vue));
