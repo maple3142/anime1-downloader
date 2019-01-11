@@ -1,7 +1,7 @@
 {
 	"name": "Anime1.me 下載器",
 	"namespace": "https://blog.maple3142.net/",
-	"version": "0.8.5",
+	"version": "0.8.6",
 	"description": "下載Anime1.me網站上的動漫",
 	"author": "maple3142",
 	"match": [
@@ -13,7 +13,8 @@
 		"https://torrent.anime1.me/*.html",
 		"https://video.anime1.me/video?*",
 		"https://player.anime1.me/watch?*",
-		"https://player.anime1.me/watchhls?*"
+		"https://player.anime1.me/watchhls?*",
+		"https://web.1ani.me/*.html"
 	],
 	"require": [
 		"https://code.jquery.com/jquery-3.2.1.min.js",
