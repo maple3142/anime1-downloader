@@ -1,5 +1,6 @@
 // ==UserScript==
-// @name        Anime1.me 下載器
+// @name        anime1-downloader
+// @name:zh-tw  Anime1.me 下載器
 // @namespace   https://blog.maple3142.net/
 // @description 下載Anime1.me網站上的動漫
 // @version     0.8.6
@@ -14,10 +15,11 @@
 // @match       https://player.anime1.me/watch?*
 // @match       https://player.anime1.me/watchhls?*
 // @match       https://web.1ani.me/*.html
-// @require     https://code.jquery.com/jquery-3.2.1.min.js
-// @require     https://unpkg.com/vue@2.5.16/dist/vue.runtime.min.js
-// @require     https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.18.0/sweetalert2.all.min.js
 // @noframes
+// @license     MIT
+// @require     https://unpkg.com/jquery@3.2.1
+// @require     https://unpkg.com/sweetalert2@7.18.0
+// @require     https://unpkg.com/vue@2.5.22
 // @grant       GM_info
 // @grant       GM_download
 // ==/UserScript==
