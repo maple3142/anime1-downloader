@@ -7,6 +7,7 @@ import video from './handlers/video'
 import watch from './handlers/watch'
 import watchhls from './handlers/watchhls'
 import web1anime from './handlers/web1anime'
+import animeone from './handlers/animeone'
 import other from './handlers/other'
 const loc = location
 if (loc.hostname === 'p.anime1.me' && loc.pathname === '/pic.php') pic()
@@ -18,4 +19,5 @@ else if (loc.hostname === 'video.anime1.me' && loc.pathname === '/video') video(
 else if (loc.hostname === 'player.anime1.me' && loc.pathname === '/watch') watch()
 else if (loc.hostname === 'player.anime1.me' && loc.pathname === '/watchhls') watchhls()
 else if (loc.hostname === 'web.1ani.me') web1anime()
+else if (loc.hostname === 'i.animeone.me') animeone()
 else other()
