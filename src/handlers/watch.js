@@ -1,3 +1,3 @@
 import hlsmsg from '../hlsmsg'
 
-export default () => setTimeout(() => hlsmsg(jwplayer('player').getPlaylistItem().file), 500)
+export default () => setTimeout(() => (location.href = jwplayer('player').getPlaylistItem().file), 500)

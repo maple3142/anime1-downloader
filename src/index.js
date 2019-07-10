@@ -21,3 +21,4 @@ else if (loc.hostname === 'player.anime1.me' && loc.pathname === '/watchhls') wa
 else if (loc.hostname === 'web.1ani.me') web1anime()
 else if (loc.hostname === 'i.animeone.me') animeone()
 else other()
+document.oncontextmenu = null // re-enable right click
