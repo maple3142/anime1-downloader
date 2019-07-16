@@ -13,15 +13,22 @@ export default function() {
 	const $articles = $('article')
 	for (let art of $articles) {
 		const $title = $(art).find('.entry-title')
-		const url = $(art)
-			.find('iframe')
-			.attr('src')
-		if (!url) continue //如果沒有影片
-		$title.append(
-			$('<button>')
-				.addClass('search-submit')
-				.text('下載')
-				.click(e => window.open(url, '_blank'))
-		)
+		const iframes = $(art).find('iframe')
+		for (let i = 0; i < iframes.length; i++) {
+			const ifr = iframes[i]
+			const url = $(ifr).attr('src')
+			if (!url) continue //如果沒有影片
+			let btnText = '下載'
+			if (iframes.length > 1) {
+				// add number after the text if there are more than 1 video in the article
+				btnText += ` #${i + 1}`
+			}
+			$title.append(
+				$('<button>')
+					.addClass('search-submit')
+					.text(btnText)
+					.click(e => window.open(url, '_blank'))
+			)
+		}
 	}
 }
