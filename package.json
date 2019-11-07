@@ -1,7 +1,7 @@
 {
 	"name": "anime1-downloader",
 	"name:zh-tw": "Anime1.me 下載器",
-	"version": "0.8.9",
+	"version": "0.8.10",
 	"description": "下載Anime1.me網站上的動漫",
 	"author": "maple3142",
 	"namespace": "https://blog.maple3142.net/",

@@ -3,7 +3,7 @@
 // @name:zh-tw  Anime1.me 下載器
 // @namespace   https://blog.maple3142.net/
 // @description 下載Anime1.me網站上的動漫
-// @version     0.8.9
+// @version     0.8.10
 // @author      maple3142
 // @match       https://anime1.me/*
 // @match       https://p.anime1.me/pic.php*
@@ -224,16 +224,16 @@ var web1anime = (() => hlsmsg(player.src()));
 var animeone = (() => hlsmsg(player.src()));
 
 function other () {
-	//其他頁面
+	// other pages
 	if ($('.acpwd-pass').length) {
-		//如果需要密碼就自動登入
-		$('.acpwd-pass').get(0).value = 'anime1.me'; //目前的密碼(2017-12-03T14:15:37.823Z)
+		// automatically enter password if needed
+		$('.acpwd-pass').get(0).value = 'anime1.me'; // current password (2017-12-03T14:15:37.823Z)
 		$('.acpwd-submit').get(0).click();
 		return;
 	}
-	//找到每個影片
+	// find each videos in articles
 	const $articles = $('article');
-	for (let art of $articles) {
+	for (const art of $articles) {
 		const $title = $(art).find('.entry-title');
 		const iframes = $(art).find('iframe');
 		for (let i = 0; i < iframes.length; i++) {
@@ -247,6 +247,12 @@ function other () {
 			}
 			$title.append($('<button>').addClass('search-submit').text(btnText).click(e => window.open(url, '_blank')));
 		}
+	}
+	// handle load vid btns
+	const loadvidBtns = $('.loadvideo');
+	for (const btn of loadvidBtns) {
+		const url = $(btn).data('src').replace('?autoplay=1', '');
+		$(btn).after($('<button>').addClass('search-submit').css('margin-left', '1em').text('下載').click(e => window.open(url, '_blank')));
 	}
 }
 
