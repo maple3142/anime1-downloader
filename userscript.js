@@ -3,7 +3,7 @@
 // @name:zh-tw  Anime1.me 下載器
 // @namespace   https://blog.maple3142.net/
 // @description 下載Anime1.me網站上的動漫
-// @version     0.8.10
+// @version     0.8.11
 // @author      maple3142
 // @match       https://anime1.me/*
 // @match       https://p.anime1.me/pic.php*
@@ -215,7 +215,14 @@ function video () {
 	location.href = src;
 }
 
-var watch = (() => setTimeout(() => location.href = jwplayer('player').getPlaylistItem().file, 500));
+var watch = (() => setTimeout(() => {
+	const url = jwplayer('player').getPlaylistItem().file;
+	if (url.endsWith('.m3u8')) {
+		hlsmsg(url);
+	} else {
+		location.href = url;
+	}
+}, 500));
 
 var watchhls = (() => hlsmsg(player.src()));
 
